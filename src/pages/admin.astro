@@ -3,7 +3,7 @@ export const prerender = false;
 import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
 
-// Consultamos los datos en el servidor
+// Consultamos todos los datos de la base de datos
 const { data: alumnos, error } = await supabase
   .from('alumnos')
   .select('*')
@@ -27,9 +27,32 @@ const carreras = [
           <h1 class="text-4xl font-black text-[#982a46]">Panel de Control</h1>
           <p class="text-slate-500 font-medium">Simposium CELC 2026</p>
         </div>
-        <a href="/" class="px-6 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
-          ← Ir a la Landing
-        </a>
+        
+        <div class="flex flex-wrap gap-3">
+          <button 
+            id="alertPendingBtn"
+            class="px-5 py-2.5 bg-amber-600 text-white rounded-full text-sm font-bold hover:bg-amber-700 transition-all shadow-sm flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Alertar Pendientes
+          </button>
+          
+          <button 
+            id="exportExcelBtn"
+            class="px-5 py-2.5 bg-emerald-600 text-white rounded-full text-sm font-bold hover:bg-emerald-700 transition-all shadow-sm flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Exportar Excel
+          </button>
+
+          <a href="/" class="px-6 py-2.5 bg-white border border-slate-200 rounded-full text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+            ← Ir a la Landing
+          </a>
+        </div>
       </header>
 
       <div class="grid md:grid-cols-3 gap-4 mb-8">
@@ -58,7 +81,7 @@ const carreras = [
 
       <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="w-full text-left">
+          <table class="w-full text-left" id="tabla-alumnos">
             <thead>
               <tr class="bg-slate-50/50 border-b border-slate-100">
                 <th class="px-6 py-5 text-xs font-black text-[#982a46] uppercase tracking-widest">Estatus</th>
@@ -70,118 +93,143 @@ const carreras = [
             </thead>
             <tbody id="adminTableBody" class="divide-y divide-slate-50">
               {alumnos?.map((alumno) => (
-                <tr class={`alumno-row transition-all ${alumno.pagado ? 'bg-emerald-50/50' : 'hover:bg-slate-50'}`}>
+                <tr class="alumno-row transition-all hover:bg-slate-50" 
+                    data-pagado={alumno.pagado ? "SI" : "NO"}
+                    data-carrera={alumno.carrera}>
                   <td class="px-6 py-4">
-                    {alumno.pagado ? (
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black">
-                        PAGADO
-                      </span>
-                    ) : (
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-black">
-                        PENDIENTE
-                      </span>
-                    )}
+                    <span class={`status-badge inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black ${alumno.pagado ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+                      {alumno.pagado ? 'PAGADO' : 'PENDIENTE'}
+                    </span>
                   </td>
-
                   <td class="px-6 py-4">
-                    <div class="font-bold text-slate-800">{alumno.nombre}</div>
-                    <div class="text-xs text-slate-400">{alumno.email}</div>
+                    <div class="font-bold text-slate-800 nombre-txt">{alumno.nombre}</div>
+                    <div class="text-xs text-slate-400 email-txt">{alumno.email}</div>
                   </td>
-
                   <td class="px-6 py-4 text-center">
-                    <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-lg">
+                    <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-lg carrera-txt">
                       {alumno.carrera}
                     </span>
                   </td>
-
                   <td class="px-6 py-4 text-center text-sm font-mono font-medium">
-                    <a 
-                      href={`https://wa.me/52${alumno.telefono.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(alumno.nombre)}!%20Te%20contacto%20del%20CELC%20sobre%20tu%20registro%20al%20Simposium...`} 
-                      target="_blank"
-                      class="text-green-600 hover:text-green-700 hover:underline transition-colors"
-                      title="Enviar WhatsApp"
-                    >
+                    <a href={`https://wa.me/52${alumno.telefono.replace(/\D/g, '')}`} target="_blank" class="text-green-600 tel-txt">
                       {alumno.telefono}
                     </a>
                   </td>
-
                   <td class="px-6 py-4 text-right">
-  <label class="cursor-pointer inline-block">
-    <button 
-      class="update-status group flex w-fit items-center gap-2 overflow-hidden border rounded-full transition-all active:scale-90 disabled:opacity-50"
-      class:list={[
-        "p-2 px-4 font-extrabold text-[10px] tracking-widest uppercase",
-        alumno.pagado 
-          ? "border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white" 
-          : "border-[#982a46] text-[#982a46] hover:bg-[#982a46] hover:text-white"
-      ]}
-      data-id={alumno.id}
-      data-pagado={alumno.pagado.toString()}
-    >
-      <div class="z-10 transition group-hover:translate-x-2">
-        {alumno.pagado ? 'PAGADO' : 'NO PAGADO'}
-      </div>
-      <svg
-        class="size-4 transition duration-500 group-hover:scale-[800%] pointer-events-none"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        fill={alumno.pagado ? "currentColor" : "none"}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-        ></path>
-      </svg>
-    </button>
-  </label>
-</td>
+                    <button 
+                      class="update-status group flex w-fit ml-auto items-center gap-2 overflow-hidden border rounded-full p-2 px-4 font-extrabold text-[10px] tracking-widest uppercase text-white transition-all active:scale-95"
+                      style={`background-color: ${alumno.pagado ? '#059669' : '#1e293b'}`}
+                      data-id={alumno.id}
+                      data-ispaid={alumno.pagado.toString()}
+                    >
+                      {alumno.pagado ? 'PAGADO' : 'NO PAGADO'}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      <div class="flex justify-between items-center mt-6 px-4">
+        <span class="text-sm text-slate-500" id="pagination-info">Cargando datos...</span>
+        <div class="flex gap-2">
+          <button id="prev-page" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-30">
+            Anterior
+          </button>
+          <button id="next-page" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-30">
+            Siguiente
+          </button>
+        </div>
+      </div>
     </div>
   </main>
 </Layout>
 
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js" is:inline></script>
+
 <script>
   import { supabase } from '../lib/supabase';
 
-  const nameSearch = document.getElementById('nameSearch') as HTMLInputElement;
-  const careerFilter = document.getElementById('careerFilter') as HTMLSelectElement;
+  let currentPage = 1;
+  const itemsPerPage = 10;
+  const rows = Array.from(document.querySelectorAll('.alumno-row')) as HTMLElement[];
+  let filteredRows = [...rows];
 
-  function performSearch() {
-    const rows = document.querySelectorAll('.alumno-row');
-    const nameQuery = nameSearch.value.toLowerCase();
-    const careerQuery = careerFilter.value.toLowerCase();
+  // --- LÓGICA DE PAGINACIÓN ---
+  function updatePagination() {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
 
-    rows.forEach(row => {
-      const nombreText = row.querySelector('td:nth-child(2)')?.textContent?.toLowerCase() || '';
-      const carreraText = row.querySelector('td:nth-child(3)')?.textContent?.toLowerCase() || '';
-      
-      const matchesName = nombreText.includes(nameQuery);
-      const matchesCareer = careerQuery === "" || carreraText.includes(careerQuery);
+    rows.forEach(r => r.style.display = "none");
+    
+    const visibleRows = filteredRows.slice(start, end);
+    visibleRows.forEach(r => r.style.display = "");
 
-      if (matchesName && matchesCareer) {
-        (row as HTMLElement).style.display = "";
-      } else {
-        (row as HTMLElement).style.display = "none";
-      }
-    });
+    const info = document.getElementById('pagination-info');
+    if (info) {
+      info.textContent = filteredRows.length === 0 
+        ? "Sin resultados" 
+        : `Mostrando ${start + 1}-${Math.min(end, filteredRows.length)} de ${filteredRows.length}`;
+    }
+
+    const prevBtn = document.getElementById('prev-page') as HTMLButtonElement;
+    const nextBtn = document.getElementById('next-page') as HTMLButtonElement;
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn) nextBtn.disabled = end >= filteredRows.length;
   }
 
-  nameSearch?.addEventListener('input', performSearch);
-  careerFilter?.addEventListener('change', performSearch);
+  // --- BUSCADOR Y FILTROS ---
+  const nameInput = document.getElementById('nameSearch') as HTMLInputElement;
+  const careerSelect = document.getElementById('careerFilter') as HTMLSelectElement;
 
-  const buttons = document.querySelectorAll('.update-status');
-  buttons.forEach(btn => {
+  function performSearch() {
+    const nQ = nameInput.value.toLowerCase();
+    const cQ = careerSelect.value.toLowerCase();
+
+    filteredRows = rows.filter(row => {
+      const nombre = row.querySelector('.nombre-txt')?.textContent?.toLowerCase() || '';
+      const carrera = row.querySelector('.carrera-txt')?.textContent?.toLowerCase() || '';
+      return nombre.includes(nQ) && (cQ === "" || carrera.includes(cQ));
+    });
+
+    currentPage = 1;
+    updatePagination();
+  }
+
+  nameInput?.addEventListener('input', performSearch);
+  careerSelect?.addEventListener('change', performSearch);
+  document.getElementById('prev-page')?.addEventListener('click', () => { currentPage--; updatePagination(); });
+  document.getElementById('next-page')?.addEventListener('click', () => { currentPage++; updatePagination(); });
+
+  // --- EXPORTAR A EXCEL (.xlsx) ---
+  document.getElementById('exportExcelBtn')?.addEventListener('click', () => {
+    // @ts-ignore
+    const XLSX = window.XLSX;
+    
+    // Preparar datos puros para el Excel (toda la lista cargada)
+    const dataToExport = rows.map(row => ({
+      Estatus: row.querySelector('.status-badge')?.textContent?.trim(),
+      Nombre: row.querySelector('.nombre-txt')?.textContent?.trim(),
+      Email: row.querySelector('.email-txt')?.textContent?.trim(),
+      Carrera: row.querySelector('.carrera-txt')?.textContent?.trim(),
+      Telefono: row.querySelector('.tel-txt')?.textContent?.trim()
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Lista Alumnos");
+    
+    // Descarga el archivo
+    XLSX.writeFile(workbook, "Alumnos_CELC_2026.xlsx");
+  });
+
+  // --- ACTUALIZAR ESTATUS (SUPABASE) ---
+  document.querySelectorAll('.update-status').forEach(btn => {
     btn.addEventListener('click', async () => {
       const id = btn.getAttribute('data-id');
-      const isPaid = btn.getAttribute('data-pagado') === 'true';
+      const isPaid = btn.getAttribute('data-ispaid') === 'true';
       
       (btn as HTMLButtonElement).disabled = true;
       btn.textContent = "Cargando...";
@@ -193,11 +241,13 @@ const carreras = [
 
       if (error) {
         alert("Error: " + error.message);
-        (btn as HTMLButtonElement).disabled = false;
-        btn.textContent = isPaid ? 'CANCELAR PAGO' : 'CONFIRMAR PAGO';
+        location.reload();
       } else {
-        window.location.reload();
+        location.reload();
       }
     });
   });
+
+  // Inicializar
+  updatePagination();
 </script>

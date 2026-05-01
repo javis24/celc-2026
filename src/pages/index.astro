@@ -3,8 +3,6 @@
 import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
 const { data, error } = await supabase.from("todos").select('*');
-
-
 ---
 
 <Layout title="Simposium CELC 2026">
@@ -73,7 +71,7 @@ const { data, error } = await supabase.from("todos").select('*');
                 <option>Licenciatura en Sistemas Computacionales y Administrativos</option>
               </select>
             </div>
-			  <div class="space-y-1">
+            <div class="space-y-1">
               <label class="text-xs font-bold text-[#982a46] uppercase ml-1">Correo electrónico</label>
               <input type="email" id="reg-email" required placeholder="danielapuentes@gmail.com" class="w-full p-4 bg-white border border-slate-200 rounded-2xl outline-none" />
             </div>
@@ -87,87 +85,77 @@ const { data, error } = await supabase.from("todos").select('*');
             Registrarme ahora
           </button>
 
-         <div class="mt-8 p-6 bg-[#982a46] rounded-3xl text-white relative overflow-hidden group">
-  <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/20 rounded-full blur-2xl"></div>
-  <p class="text-[10px] font-bold text-rose-400 uppercase tracking-[0.2em] mb-4">Información de Pago</p>
-  
-  <div class="space-y-3 relative z-10">
-    <div class="flex flex-col">
-      <span class="text-[10px] text-slate-400 uppercase">Beneficiario</span>
-      <span class="font-bold text-sm">Edmundo Carlos Rivera García</span>
-    </div>
+          <div class="mt-8 p-6 bg-[#982a46] rounded-3xl text-white relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/20 rounded-full blur-2xl"></div>
+            <p class="text-[10px] font-bold text-rose-400 uppercase tracking-[0.2em] mb-4">Información de Pago</p>
+            
+            <div class="space-y-3 relative z-10">
+              <div class="flex flex-col">
+                <span class="text-[10px] text-slate-400 uppercase">Beneficiario</span>
+                <span class="font-bold text-sm">Edmundo Carlos Rivera García</span>
+              </div>
 
-    <div class="flex flex-col">
-      <span class="text-[10px] text-slate-400 uppercase">CLABE (Nu México)</span>
-      <div class="flex items-center gap-2">
-        <code class="text-rose-400 font-mono text-base" id="clabe-number">638180000161308991</code>
-        <button type="button" onclick="navigator.clipboard.writeText('638180000161308991')" class="p-1 hover:bg-white/10 rounded">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-          </svg>
-        </button>
-      </div>
-    </div>
+              <div class="flex flex-col">
+                <span class="text-[10px] text-slate-400 uppercase">CLABE (Nu México)</span>
+                <div class="flex items-center gap-2">
+                  <code class="text-rose-400 font-mono text-base" id="clabe-number">638180000161308991</code>
+                  <button type="button" onclick="navigator.clipboard.writeText('638180000161308991')" class="p-1 hover:bg-white/10 rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
-    <div class="pt-4 mt-2 border-t border-rose-500/30">
-      <p class="text-[10px] text-slate-400 uppercase mb-2">Paso Final</p>
-      <a 
-        href="https://wa.me/528715986114?text=Hola!%20Acabo%20de%20realizar%20mi%20pago%20para%20el%20Simposium%20CELC%202026.%20Aquí%20adjunto%20mi%20comprobante." 
-        target="_blank"
-        class="flex items-center justify-between bg-white/10 hover:bg-white/20 transition-all p-3 rounded-2xl border border-white/10 group/wa"
-      >
-        <div class="flex flex-col">
-          <span class="text-[11px] font-bold">Confirmar pago vía WhatsApp</span>
-          <span class="text-[10px] text-rose-300">Enviar comprobante</span>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400 group-hover/wa:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412 0 6.556-5.338 11.892-11.893 11.892-1.997 0-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.669c1.544.917 3.51 1.403 5.516 1.403 5.434 0 9.853-4.417 9.853-9.853 0-5.433-4.419-9.853-9.853-9.853-5.435 0-9.853 4.42-9.853 9.853 0 2.13.669 4.106 1.833 5.733l-1.074 3.921 4.028-1.057zm12.42-5.748c-.027-.044-.103-.071-.218-.128-.114-.057-.674-.332-.778-.37-.104-.038-.18-.057-.256.057-.076.114-.294.37-.361.446-.067.076-.133.085-.248.028-.114-.057-.48-.177-.915-.565-.338-.302-.567-.674-.633-.788-.067-.114-.007-.175.05-.231.051-.051.114-.133.171-.199.057-.066.076-.114.114-.19.038-.076.019-.142-.01-.199-.028-.057-.256-.617-.351-.845-.093-.223-.186-.192-.256-.196l-.218-.004c-.076 0-.199.028-.303.142-.104.114-.398.389-.398.95s.408 1.091.465 1.167c.057.076.804 1.228 1.947 1.721.272.117.484.187.649.24.273.087.521.075.718.045.22-.033.674-.275.769-.541.095-.266.095-.494.066-.541z"/>
-        </svg>
-      </a>
-    </div>
-  </div>
-</div>
+              <div class="pt-4 mt-2 border-t border-rose-500/30">
+                <p class="text-[10px] text-slate-400 uppercase mb-2">Paso Final</p>
+                <a 
+                  href="https://wa.me/528715986114?text=Hola!%20Acabo%20de%20realizar%20mi%20pago%20para%20el%20Simposium%20CELC%202026.%20Aquí%20adjunto%20mi%20comprobante." 
+                  target="_blank"
+                  class="flex items-center justify-between bg-white/10 hover:bg-white/20 transition-all p-3 rounded-2xl border border-white/10 group/wa"
+                >
+                  <div class="flex flex-col">
+                    <span class="text-[11px] font-bold">Confirmar pago vía WhatsApp</span>
+                    <span class="text-[10px] text-rose-300">Enviar comprobante</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400 group-hover/wa:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412 0 6.556-5.338 11.892-11.893 11.892-1.997 0-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.669c1.544.917 3.51 1.403 5.516 1.403 5.434 0 9.853-4.417 9.853-9.853 0-5.433-4.419-9.853-9.853-9.853-5.435 0-9.853 4.42-9.853 9.853 0 2.13.669 4.106 1.833 5.733l-1.074 3.921 4.028-1.057zm12.42-5.748c-.027-.044-.103-.071-.218-.128-.114-.057-.674-.332-.778-.37-.104-.038-.18-.057-.256.057-.076.114-.294.37-.361.446-.067.076-.133.085-.248.028-.114-.057-.48-.177-.915-.565-.338-.302-.567-.674-.633-.788-.067-.114-.007-.175.05-.231.051-.051.114-.133.171-.199.057-.066.076-.114.114-.19.038-.076.019-.142-.01-.199-.028-.057-.256-.617-.351-.845-.093-.223-.186-.192-.256-.196l-.218-.004c-.076 0-.199.028-.303.142-.104.114-.398.389-.398.95s.408 1.091.465 1.167c.057.076.804 1.228 1.947 1.721.272.117.484.187.649.24.273.087.521.075.718.045.22-.033.674-.275.769-.541.095-.266.095-.494.066-.541z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </section>
 
     <section class="max-w-7xl mx-auto px-6 py-20">
-      <div class="text-center mb-12">
-        <h3 class="text-4xl md:text-5xl font-black text-[#982a46] mb-4">Simposium CELC 2026</h3>
-        <p class="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
-          Acompáñanos en este simposium único, donde la innovación, el conocimiento y las oportunidades de crecimiento se reúnen en un solo lugar.
-        </p>
-      </div>
+  <div class="text-center mb-12">
+    <h3 class="text-4xl md:text-5xl font-black text-[#982a46] mb-4">Simposium CELC 2026</h3>
+    <p class="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
+      Acompáñanos en este simposium único, donde la innovación, el conocimiento y las oportunidades de crecimiento se reúnen en un solo lugar.
+    </p>
+  </div>
 
-      <div class="flex flex-wrap justify-center gap-3 mb-12">
-        {["Derecho", "Arquitectura", "Turismo", "Contabilidad", "Sistemas"].map((carrera, index) => (
-          <button 
-            class={`day-btn px-6 py-3 rounded-full font-bold transition-all border-2 ${index === 1 ? 'bg-[#982a46] text-white border-[#982a46]' : 'bg-white text-slate-600 border-slate-200 hover:border-[#982a46] hover:text-[#982a46]'}`}
-            data-index={index}
-          >
-            {carrera}
-          </button>
-        ))}
-      </div>
+  <div class="flex flex-wrap justify-center gap-3 mb-12">
+    {["Derecho", "Arquitectura", "Turismo", "Contabilidad", "Sistemas"].map((carrera, index) => (
+      <button 
+        class={`day-btn px-6 py-3 rounded-full font-bold transition-all border-2 ${index === 0 ? 'bg-[#982a46] text-white border-[#982a46]' : 'bg-white text-slate-600 border-slate-200 hover:border-[#982a46] hover:text-[#982a46]'}`}
+        data-career={carrera.toLowerCase()}
+      >
+        {carrera}
+      </button>
+    ))}
+  </div>
 
-      <div id="schedule-container" class="max-w-4xl mx-auto space-y-4">
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 hover:shadow-md transition-shadow">
-          <div class="text-center md:text-left">
-            <span class="bg-rose-50 text-[#982a46] px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">Conferencia Principal</span>
-            <h4 class="text-xl font-extrabold text-slate-800 mt-2">Innovación en el Diseño Estructural</h4>
-            <p class="text-slate-500 font-medium">Ponente: Arq. Juan Pérez</p>
-          </div>
-          <div class="text-right">
-            <div class="text-2xl font-black text-[#982a46]">09:00 AM</div>
-            <div class="text-slate-400 text-sm font-bold">Auditorio Principal</div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div id="schedule-container" class="max-w-4xl mx-auto space-y-4">
+    </div>
+</section>
+
+
   </main>
 </Layout>
 <script>
-  // 1. Importamos el cliente de supabase (ajusta la ruta según tu proyecto)
   import { supabase } from '../lib/supabase';
 
   // --- LÓGICA DEL CONTADOR ---
@@ -194,58 +182,199 @@ const { data, error } = await supabase.from("todos").select('*');
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // --- LÓGICA DEL PROGRAMA (TABS) ---
-  const buttons = document.querySelectorAll('.day-btn');
-  buttons.forEach(btn => {
+  // --- PROGRAMA POR CARRERA (AQUÍ ESTÁ EL TIPO) ---
+  const programData: { [key: string]: { titulo: string; ponente: string; hora: string; tipo: string }[] } = {
+    "derecho": [
+      {
+        titulo: "Nuevo Códigos de Procedimientos Civiles y Familiares Federales",
+        ponente: "Conferencias Magistrales",
+        hora: "Programa General",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Incapacidad del Estado de Interdicción",
+        ponente: "Derecho",
+        hora: "Ponencia",
+        tipo: "Derecho"
+      },
+      {
+        titulo: "Taller de Argumentación Jurídica",
+        ponente: "Taller Especializado",
+        hora: "Práctica",
+        tipo: "Taller"
+      }
+    ],
+    "arquitectura": [
+      {
+        titulo: "Arquitectura Emocional y Humana",
+        ponente: "Arquitectura",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Smart Homes y Automatización",
+        ponente: "Arquitectura",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Materiales de Construcción Sostenibles",
+        ponente: "Arquitectura",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      }
+    ],
+    "turismo": [
+      {
+        titulo: "Turismo Gastronómico",
+        ponente: "Administración de Empresas Turísticas",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Nuevas Tendencias de Turismo",
+        ponente: "Administración de Empresas Turísticas",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Redes Sociales y Neuromarketing",
+        ponente: "Administración de Empresas Turísticas",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      }
+    ],
+    "contabilidad": [
+      {
+        titulo: "Implementación de IA en Auditoría",
+        ponente: "Contador Público",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Impacto del Nearshoring en la Contabilidad",
+        ponente: "Contador Público",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Panorama Fiscal 2026",
+        ponente: "Contador Público",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      }
+    ],
+    "sistemas": [
+      {
+        titulo: "Programación en Fronted",
+        ponente: "Sistemas Computacionales",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Ciberseguridad",
+        ponente: "Sistemas Computacionales",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      },
+      {
+        titulo: "Inteligencia Artificial",
+        ponente: "Sistemas Computacionales",
+        hora: "Conferencia",
+        tipo: "Ponencia"
+      }
+    ]
+  };
+
+  const scheduleContainer = document.getElementById('schedule-container');
+  const careerButtons = document.querySelectorAll('.day-btn');
+
+  function renderSchedule(career: string) {
+    if (!scheduleContainer) return;
+    
+    scheduleContainer.innerHTML = '';
+    const items = programData[career] || programData['derecho'];
+
+    items.forEach((item: any) => {
+      scheduleContainer.innerHTML += `
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 hover:shadow-md transition-shadow">
+          <div class="text-center md:text-left">
+            <span class="bg-rose-50 text-[#982a46] px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">${item.tipo}</span>
+            <h4 class="text-xl font-extrabold text-slate-800 mt-2">${item.titulo}</h4>
+            <p class="text-slate-500 font-medium">${item.ponente}</p>
+          </div>
+          <div class="text-right md:text-right">
+            <div class="text-slate-400 text-sm font-bold mt-2 md:mt-0">${item.hora}</div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  careerButtons.forEach(function(btn) {
     btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('bg-[#982a46]', 'text-white', 'border-[#982a46]'));
-      buttons.forEach(b => b.classList.add('bg-white', 'text-slate-600', 'border-slate-200'));
+      careerButtons.forEach(function(b) {
+        b.classList.remove('bg-[#982a46]', 'text-white', 'border-[#982a46]');
+        b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+      });
       btn.classList.add('bg-[#982a46]', 'text-white', 'border-[#982a46]');
       btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+
+      const selectedCareer = btn.getAttribute('data-career') || 'derecho';
+      renderSchedule(selectedCareer);
     });
   });
 
-  // --- LÓGICA DE REGISTRO (SUPABASE + WHATSAPP) ---
-  const form = document.getElementById('registrationForm') as HTMLFormElement | null;
+  renderSchedule('derecho');
+
+  // --- LÓGICA DE REGISTRO (SUPABASE + VALIDACIÓN) ---
+  const form = document.getElementById('registrationForm');
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Capturamos los elementos
     const nameInput = document.getElementById('reg-name') as HTMLInputElement;
     const emailInput = document.getElementById('reg-email') as HTMLInputElement;
     const careerSelect = document.getElementById('reg-career') as HTMLSelectElement;
     const phoneInput = document.getElementById('reg-phone') as HTMLInputElement;
-    
+
     if (nameInput && emailInput && careerSelect && phoneInput) {
-        const nombre = nameInput.value;
-        const email = emailInput.value;
-        const carrera = careerSelect.value;
-        const telefono = phoneInput.value;
+      const nombre = nameInput.value;
+      const email = emailInput.value;
+      const carrera = careerSelect.value;
+      const telefono = phoneInput.value;
 
-        try {
-          // A) GUARDAR EN SUPABASE
-          const { error } = await supabase
-            .from('alumnos')
-            .insert([
-              { nombre, email, carrera, telefono }
-            ]);
+      try {
+        const { data: existingAlumnos, error: searchError } = await supabase
+          .from('alumnos')
+          .select('email, telefono')
+          .or(`email.eq.${email},telefono.eq.${telefono}`);
 
-          if (error) throw error;
+        if (searchError) throw searchError;
 
-          // B) SI TODO SALIÓ BIEN, ENVIAR A WHATSAPP
-          const message = `Hola, me gustaría inscribirme al Simposium CELC 2026.%0A%0A*Nombre:* ${nombre}%0A*Correo:* ${email}%0A*Carrera:* ${carrera}%0A*Teléfono:* ${telefono}`;
-          
-          // Reemplaza el número 521871... por el número real de destino
-          window.open(`https://wa.me/528715986114?text=${message}`, '_blank');
-          
-          alert('¡Registro exitoso guardado en base de datos!');
-          form.reset();
-
-        } catch (error) {
-          console.error('Error:', error);
-          alert('Hubo un error al guardar tus datos. Por favor intenta de nuevo.');
+        if (existingAlumnos && existingAlumnos.length > 0) {
+          alert('¡Aviso! El correo o el número de WhatsApp ya están registrados en la base de datos.');
+          return;
         }
+
+        const { error: insertError } = await supabase
+          .from('alumnos')
+          .insert([
+            { nombre, email, carrera, telefono }
+          ]);
+
+        if (insertError) throw insertError;
+
+        const message = `Hola, me gustaría inscribirme al Simposium CELC 2026.%0A%0A*Nombre:* ${nombre}%0A*Correo:* ${email}%0A*Carrera:* ${carrera}%0A*Teléfono:* ${telefono}`;
+        window.open(`https://wa.me/528715986114?text=${message}`, '_blank');
+        
+        alert('¡Registro exitoso guardado en base de datos!');
+        (document.getElementById('registrationForm') as HTMLFormElement).reset();
+
+      } catch (err) {
+        console.error('Error:', err);
+        alert('Hubo un error al guardar tus datos. Por favor intenta de nuevo.');
+      }
     }
   });
 </script>
